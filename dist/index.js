@@ -34,6 +34,9 @@ class Printer {
         this.parser.on('data', line => this.observer.next(line));
         this.observable.subscribe();
     }
+    /**
+     * Initializes the printer and all the variables. It must be called before using the printer commands.
+     */
     init() {
         return __awaiter(this, void 0, void 0, function* () {
             yield sleep(1000);
@@ -57,6 +60,11 @@ class Printer {
             });
         });
     }
+    /**
+     * Sends a GCode command to the printer. If the attribute 'waitForOk' is false, the program won't wait for an "ok" response from the printer.
+     * @param command
+     * @param waitForOk
+     */
     sendCommand(command, waitForOk) {
         return __awaiter(this, void 0, void 0, function* () {
             yield new Promise((resolve, reject) => {
@@ -74,11 +82,18 @@ class Printer {
             }
         });
     }
+    /**
+     * Auto homes the nozzle only on the X any Y axes.
+     */
     autoHomeXY() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.autoHome(["X", "Y"]);
         });
     }
+    /**
+     * Auto homes the nozzle on the specified axes.
+     * @param axes
+     */
     autoHome(axes) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("Auto home started...");
@@ -89,6 +104,10 @@ class Printer {
             console.log("Auto home finished.");
         });
     }
+    /**
+     * Sets the position mode
+     * @param newPositionMode
+     */
     setPositionMode(newPositionMode) {
         return __awaiter(this, void 0, void 0, function* () {
             this.currentPositionMode = newPositionMode;
@@ -104,6 +123,13 @@ class Printer {
             }
         });
     }
+    /**
+     * Moves the nozzle with a specified relative position
+     * @param deltaX
+     * @param deltaY
+     * @param deltaZ
+     * @param waitForMotors
+     */
     go(deltaX, deltaY, deltaZ, waitForMotors) {
         return __awaiter(this, void 0, void 0, function* () {
             deltaX = deltaX || 0;
@@ -140,6 +166,12 @@ class Printer {
             this.currentPosition = nextPos;
         });
     }
+    /**
+     * Moves the nozzle to a specified absolute position (in millimeters)
+     * @param posOrX
+     * @param y
+     * @param z
+     */
     goTo(posOrX, y, z) {
         return __awaiter(this, void 0, void 0, function* () {
             let targetPos;
@@ -182,10 +214,11 @@ class Printer {
         });
     }
     /**
-     * @param checkRate in milliseconds
-     * @param deltaX
-     * @param deltaY
-     * @param deltaZ
+     * Wait for all the motors to complete their task
+     * @param checkRate The interval for checking the positions of the motors (in milliseconds)
+     * @param deltaX optional
+     * @param deltaY optional
+     * @param deltaZ optional
      */
     waitForMotors(checkRate, deltaX, deltaY, deltaZ) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -209,11 +242,14 @@ class Printer {
             }
         });
     }
+    /**
+     * Returns the current position mode (PositionMode)
+     */
     getPositionMode() {
         return this.currentPositionMode;
     }
     /**
-     * @param speed Speed rate in mm/s
+     * @param speed Sets speed of the nozzle in mm/s
      */
     setSpeed(speed) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -230,6 +266,9 @@ class Printer {
             return pd.targetPosition;
         });
     }
+    /**
+     * Returns the target position and the current position in an object.
+     */
     getPositionData() {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise(resolve => {
@@ -267,6 +306,11 @@ class Printer {
             return pd.currentPosition;
         });
     }
+    /**
+     * Sends GCode, or a GCode array to the printer.
+     * @param gCode
+     * @param waitForOk
+     */
     sendGCode(gCode, waitForOk) {
         return __awaiter(this, void 0, void 0, function* () {
             if (Array.isArray(gCode)) {
@@ -282,6 +326,10 @@ var PositionMode;
     PositionMode[PositionMode["ABSOLUTE"] = 0] = "ABSOLUTE";
     PositionMode[PositionMode["RELATIVE"] = 1] = "RELATIVE";
 })(PositionMode = exports.PositionMode || (exports.PositionMode = {}));
+/**
+ * Sleep for a given time period
+ * @param millis The time in milliseconds
+ */
 function sleep(millis) {
     return __awaiter(this, void 0, void 0, function* () {
         return new Promise(resolve => setTimeout(resolve, millis));

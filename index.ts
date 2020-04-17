@@ -36,6 +36,9 @@ export class Printer {
         this.observable.subscribe();
     }
 
+    /**
+     * Initializes the printer and all the variables. It must be called before using the printer commands.
+     */
     async init() {
         await sleep(1000);
         if (!this.connected) throw new Error("Unable to connect");
@@ -56,6 +59,11 @@ export class Printer {
         });
     }
 
+    /**
+     * Sends a GCode command to the printer. If the attribute 'waitForOk' is false, the program won't wait for an "ok" response from the printer.
+     * @param command
+     * @param waitForOk
+     */
     async sendCommand(command, waitForOk?: boolean) {
         await new Promise((resolve, reject) => {
             this.port.write(command + "\n", (error, bytesWritten) => {
@@ -71,10 +79,17 @@ export class Printer {
         }
     }
 
+    /**
+     * Auto homes the nozzle only on the X any Y axes.
+     */
     async autoHomeXY() {
         await this.autoHome(["X", "Y"])
     }
 
+    /**
+     * Auto homes the nozzle on the specified axes.
+     * @param axes
+     */
     async autoHome(axes: Axis[]) {
         console.log("Auto home started...");
         axes.forEach(axis => {
@@ -84,7 +99,11 @@ export class Printer {
         console.log("Auto home finished.");
     }
 
-    async setPositionMode(newPositionMode): Promise<void> {
+    /**
+     * Sets the position mode
+     * @param newPositionMode
+     */
+    private async setPositionMode(newPositionMode): Promise<void> {
         this.currentPositionMode = newPositionMode;
         switch (this.currentPositionMode) {
             case PositionMode.ABSOLUTE:
@@ -98,6 +117,13 @@ export class Printer {
         }
     }
 
+    /**
+     * Moves the nozzle with a specified relative position
+     * @param deltaX
+     * @param deltaY
+     * @param deltaZ
+     * @param waitForMotors
+     */
     async go(deltaX: number, deltaY?: number, deltaZ?: number, waitForMotors?: boolean) {
         deltaX = deltaX || 0;
         deltaY = deltaY || 0;
@@ -137,6 +163,12 @@ export class Printer {
     }
 
 
+    /**
+     * Moves the nozzle to a specified absolute position (in millimeters)
+     * @param posOrX
+     * @param y
+     * @param z
+     */
     async goTo(posOrX: Vector3D | number, y?: number, z?: number) {
         let targetPos: Vector3D;
         if ((posOrX as Vector3D).x || (posOrX as Vector3D).y || (posOrX as Vector3D).z) {
@@ -176,10 +208,11 @@ export class Printer {
     }
 
     /**
-     * @param checkRate in milliseconds
-     * @param deltaX
-     * @param deltaY
-     * @param deltaZ
+     * Wait for all the motors to complete their task
+     * @param checkRate The interval for checking the positions of the motors (in milliseconds)
+     * @param deltaX optional
+     * @param deltaY optional
+     * @param deltaZ optional
      */
     async waitForMotors(checkRate: number, deltaX?: number, deltaY?: number, deltaZ?: number) {
         if (!deltaX || !deltaY || !deltaZ) {
@@ -203,12 +236,15 @@ export class Printer {
         }
     }
 
+    /**
+     * Returns the current position mode (PositionMode)
+     */
     getPositionMode(): PositionMode {
         return this.currentPositionMode;
     }
 
     /**
-     * @param speed Speed rate in mm/s
+     * @param speed Sets speed of the nozzle in mm/s
      */
     async setSpeed(speed: number) {
         this.speed = speed;
@@ -223,6 +259,9 @@ export class Printer {
         return pd.targetPosition;
     }
 
+    /**
+     * Returns the target position and the current position in an object.
+     */
     async getPositionData(): Promise<{ currentPosition: Vector3D, targetPosition: Vector3D }> {
         return new Promise(resolve => {
             const subscription = this.observable.subscribe((line: string) => {
@@ -259,6 +298,11 @@ export class Printer {
         return pd.currentPosition;
     }
 
+    /**
+     * Sends GCode, or a GCode array to the printer.
+     * @param gCode
+     * @param waitForOk
+     */
     async sendGCode(gCode: string | string[], waitForOk?: boolean) {
         if (Array.isArray(gCode)) {
             gCode = gCode.join("\n");
@@ -275,6 +319,10 @@ export enum PositionMode {
     RELATIVE
 }
 
+/**
+ * Sleep for a given time period
+ * @param millis The time in milliseconds
+ */
 export async function sleep(millis) {
     return new Promise(resolve => setTimeout(resolve, millis));
 }

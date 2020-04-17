@@ -1,6 +1,6 @@
 {
   "name": "3d-printer-controller",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Control your 3D printer directly from nodeJS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
