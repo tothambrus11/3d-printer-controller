@@ -1,0 +1,14 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "no-trailing-whitespace": false,
+        "no-console": false,
+        "await-promise": true,
+        "no-floating-promises": true
+    },
+    "rulesDirectory": []
+}

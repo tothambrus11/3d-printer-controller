@@ -1,0 +1,34 @@
+{
+  "name": "3d-printer-controller",
+  "version": "1.0.1",
+  "description": "Control your 3D printer directly from nodeJS",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "serve": "tsc-watch --outDir ./dist --declaration",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "gcode",
+    "3d",
+    "printer",
+    "3d printer",
+    "serial port"
+  ],
+  "author": "Ambrus Tóth",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/serialport": "^8.0.0",
+    "ts-node": "^8.8.2",
+    "tslint": "^6.1.1",
+    "typescript": "^3.8.3",
+    "tsc-watch": "^4.2.3"
+  },
+  "dependencies": {
+    "@serialport/parser-readline": "^8.0.6",
+    "rxjs": "^6.5.5",
+    "rxjs-compat": "^6.5.5",
+    "serialport": "^8.0.7"
+  }
+}
