@@ -1,6 +1,6 @@
 {
   "name": "3d-printer-controller",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Control your 3D printer directly from nodeJS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,6 +9,7 @@
     "serve": "tsc-watch --outDir ./dist --declaration",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": "https://github.com/tothambrus11/3d-printer-controller",
   "keywords": [
     "gcode",
     "3d",
