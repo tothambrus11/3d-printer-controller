@@ -97,4 +97,4 @@ const posData = await myPrinter.getPositionData();
 const currentPos = posData.currentPosition;
 const targetPos = posData.targetPosition;
 ```
-This method is only for saving time when we need all the two positions in one place (for example when waiting for the nozzle to finish its movement).
+This method is only for saving time when we need both positions in one place (for example when waiting for the nozzle to finish its movement).
