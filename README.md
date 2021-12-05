@@ -1,5 +1,6 @@
 # 3D printer controller
-This module helps you control your 3d printer from JavaScript (& TypeScript). The module uses promises, so you can wait for the motor moves to be completed.
+This module helps you control your 3d printer using JavaScript (& TypeScript). The module uses promises, so you can wait for the motor moves to be completed asynchronously.
+
 ## Features 
  - Send custom GCode to the printer
  - Move the nozzle to an absolute position
@@ -10,7 +11,7 @@ This module helps you control your 3d printer from JavaScript (& TypeScript). Th
 ## Get started
 1. Add the module to your dependencies:
     ```shell script
-    npm i 3d-printer-controller --save
+    npm i 3d-printer-controller
     ```
 2. Create a printer instance in your code and call its ```.init()``` function:
    ```javascript
@@ -25,7 +26,7 @@ This module helps you control your 3d printer from JavaScript (& TypeScript). Th
    You have to write your code inside an async function if you want to use await.
 
 ## API
-### Cosntructor
+### Constructor
 ```javascript
 new Printer(port: string, baudRate: number, maxPrintSize: Vector3D);
     // Vector3D is an object like {x: number, y: number, z: number}
